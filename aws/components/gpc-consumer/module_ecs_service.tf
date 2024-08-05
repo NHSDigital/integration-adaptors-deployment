@@ -25,8 +25,7 @@ module "gpc-consumer_ecs_service" {
   enable_load_balancing = true
 
   container_healthcheck_port = var.gpc-consumer_service_container_port
-  enable_dlt                 = var.enable_dlt
-  dlt_vpc_id                 = var.dlt_vpc_id
+  enable_dlt                 = false
 
   environment_variables = local.gpcc_environment_variables
   secret_variables      = var.gpc-consumer_include_certs ? concat(local.gpcc_secret_variables,local.gpcc_spine_secrets) : local.gpcc_secret_variables

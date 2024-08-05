@@ -1,3 +1,34 @@
+variable "account_id" {
+  type = string
+  description = "ID of AWS Account on which the resources are created"
+}
+
+variable "project" {
+  type = string
+  description = "Name of the project where this code is used"
+}
+
+variable "environment" {
+  type = string
+  description = "Name of the environment"
+}
+
+variable "component" {
+  type = string
+  description = "Name of the component"
+  default = "gpc-consumer"
+}
+
+variable "region" {
+  type = string
+  description = "Region where the resources will be created"
+}
+
+variable "tf_state_bucket" {
+  type = string
+  description = "Name of S3 bucket with TF state of components"
+}
+
 variable "gpc-consumer_service_desired_count" {
   type = number
   description = "Number of containers to run in the service"
