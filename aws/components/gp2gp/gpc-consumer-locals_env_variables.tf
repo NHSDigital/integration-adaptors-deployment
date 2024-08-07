@@ -14,7 +14,7 @@ locals {
     },
     {
       name  = "GPC_CONSUMER_SDS_URL"
-      value = var.gp2gp_create_wiremock ? "http://${module.gp2gp_wiremock_ecs_service[0].loadbalancer_dns_name}:${var.gp2gp_wiremock_container_port}/spine-directory/" : var.gpc-consumer_sds_url
+      value = var.gpc-consumer_sds_url
     },
     {
       name  = "GPC_SUPPLIER_ODS_CODE"

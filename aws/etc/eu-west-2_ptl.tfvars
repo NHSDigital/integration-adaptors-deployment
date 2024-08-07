@@ -100,8 +100,9 @@ gpc-consumer_logs_datetime_format = "%Y-%m-%d %H:%M:%S%L"
 gpc-consumer_supplier_ods_code = "YGMYW"
 
 ###### FOR GPC-CONSUMER TO BE DEPLOYED IN PTL ENVIRONMENT
-gpc-consumer_include_certs = false
+gpc-consumer_include_certs = true
 gpc-consumer_sds_url = "https://int.api.service.nhs.uk/spine-directory/FHIR/R4"
+gpc-consumer_ssp_url = "https://proxy.int.spine2.ncrs.nhs.uk/"
 secret_name_spine_client_cert = "gpc_consumer_spine_client_cert"
 secret_name_spine_client_key = "gpc_consumer_spine_client_key"
 secret_name_spine_root_ca_cert = "gpc_consumer_spine_root_ca_cert"
