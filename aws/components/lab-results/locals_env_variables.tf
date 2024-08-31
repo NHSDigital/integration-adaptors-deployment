@@ -1,10 +1,6 @@
 locals {
   environment_variables = concat(var.lab-results_environment_variables,[
     {
-      name = "LAB_RESULTS_MESH_API_HTTP_PROXY"
-      value = var.opentest_connected ? data.aws_instance.opentest_instance.private_ip : ""
-    },
-    {
       name  = "LAB_RESULTS_OUTBOUND_SERVER_PORT"
       value = var.lab-results_service_container_port
     },

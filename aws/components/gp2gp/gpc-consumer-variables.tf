@@ -117,25 +117,25 @@ variable "gpc-consumer_include_certs" {
 
 variable secret_name_spine_client_cert {
   type = string
-  default = "opentest-client-certificate"
+  default = ""
 }
 
 variable secret_name_spine_client_key {
   type = string
-  default = "opentest-client-key"
+  default = ""
 }
 
 variable secret_name_spine_root_ca_cert {
   type = string
-  default = "opentest-ca-certs"
+  default = ""
 }
 
 variable secret_name_spine_sub_ca_cert {
   type = string
-  default = "opentest-ca-certs"
+  default = ""
 }
 
 variable secret_name_sds_apikey {
   type = string
-  default = "opentest-client-key"
+  default = ""
 }

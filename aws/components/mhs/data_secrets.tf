@@ -18,7 +18,7 @@ data "aws_secretsmanager_secret" "aws_rds_combined_ca_bundle" {
   name = "aws-rds-combined-ca-bundle"
 }
 
-# These are env specific, OpenTest certs and keys are different than HSCN ones.
+# These are env specific
 
 data "aws_secretsmanager_secret" "mhs_party_key" {
   name = var.secret_name_mhs_party_key

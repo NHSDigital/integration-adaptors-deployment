@@ -190,16 +190,3 @@ variable "lab-results_scheduler_enabled" {
   description = "Enable scheduler"
   default = true
 }
-
-# Opentest
-
-variable "opentest_connected" {
-  type = bool
-  description = "Should this environment be connected to OpenTest"
-  default = true
-}
-
-variable "opentest_instance_id" {
-  type = string
-  description = "Id of vpc with opentest instance"
-}
