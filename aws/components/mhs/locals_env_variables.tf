@@ -1,6 +1,18 @@
 locals {
+  persistence_environment_variables = var.mhs_persistence_adaptor == "mongodb" ? [
+    {
+      name = "MHS_DB_ENDPOINT_URL"
+      value = join("&",[data.terraform_remote_state.base.outputs.docdb_cluster_connection_string,"ssl=${data.terraform_remote_state.base.outputs.docdb_tls_enabled}"])
+    }
+  ] : [
+    {
+      name = "MHS_CLOUD_REGION"
+      value = var.region
+    }
+  ]
+
   # variables common for all three adapters
-  environment_variables = concat(var.mhs_environment_variables,[
+  environment_variables = concat(concat(var.mhs_environment_variables, local.persistence_environment_variables),[
     {
       name = "MHS_LOG_LEVEL"
       value = var.mhs_log_level
@@ -15,11 +27,7 @@ locals {
     },
     {
       name = "MHS_PERSISTENCE_ADAPTOR"
-      value = "mongodb"
-    },
-    {
-      name = "MHS_DB_ENDPOINT_URL"
-      value = join("&",[data.terraform_remote_state.base.outputs.docdb_cluster_connection_string,"ssl=${data.terraform_remote_state.base.outputs.docdb_tls_enabled}"])
+      value = var.mhs_persistence_adaptor
     },
     {
       name  = "MHS_OUTBOUND_ROUTING_LOOKUP_METHOD"

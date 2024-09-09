@@ -101,6 +101,12 @@ variable "mhs_service_launch_type" {
   description = "Type of cluster on which this service will be run, FARGATE or EC2"
 }
 
+variable "mhs_persistence_adaptor" {
+  type = string
+  description = "dynamodb OR mongodb"
+  default = "mongodb"
+}
+
 # variable "mhs_mongo_options" {
 #   type = string
 #   description = "Options for Mongo"
