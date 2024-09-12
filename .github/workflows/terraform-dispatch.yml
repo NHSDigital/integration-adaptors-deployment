@@ -149,23 +149,24 @@ jobs:
           repository: ${{ inputs.repository }}
           ref: ${{ inputs.branch }}
 
+      - name: Setup Terraform using tfenv
+        run: |
+              git clone https://github.com/tfutils/tfenv.git .tfenv
+              cd aws/components/${{ inputs.component }}
+              ../../../.tfenv/bin/tfenv install
+
       - name: Write Terraform Vars File
         run: |
           echo '${{ needs.process-terraform-vars-file-content.outputs.terraform_vars_file_content }}' | jq -r 'to_entries | .[] | "\(.key) = \"\(.value)\""' > aws/etc/secrets.tfvars
 
       - name: "Run Terraform: Init"
         run: |
-          git clone https://github.com/tfutils/tfenv.git .tfenv
-          
-          cd aws/components/${{ inputs.component }}
-          
-          ../../../.tfenv/bin/tfenv install
-          
-          terraform init \
-            -backend-config='bucket=${{ secrets.TF_STATE_BUCKET }}'  \
-            -backend-config='region=${{ secrets.AWS_REGION }}' \
-            -backend-config='key=${{ inputs.project }}-${{ inputs.environment }}-${{ inputs.component }}.tfstate' \
-            -input=false
+              cd 'aws/components/${{ inputs.component }}'
+              terraform init \
+                -backend-config='bucket=${{ secrets.TF_STATE_BUCKET }}'  \
+                -backend-config='region=${{ secrets.AWS_REGION }}' \
+                -backend-config='key=${{ inputs.project }}-${{ inputs.environment }}-${{ inputs.component }}.tfstate' \
+                -input=false
 
       - name: "Run Terraform: Plan"
         run: |
