@@ -1,15 +1,17 @@
 locals {
-  persistence_environment_variables = var.mhs_persistence_adaptor == "mongodb" ? [
+  mongo_persistence_environment_variables = [
     {
       name = "MHS_DB_ENDPOINT_URL"
       value = join("&",[data.terraform_remote_state.base.outputs.docdb_cluster_connection_string,"ssl=${data.terraform_remote_state.base.outputs.docdb_tls_enabled}"])
     }
-  ] : [
+  ]
+  dynamodb_persistence_environment_variables = [
     {
       name = "MHS_CLOUD_REGION"
       value = var.region
     }
   ]
+  persistence_environment_variables = var.mhs_persistence_adaptor == "mongodb" ? local.mongo_persistence_environment_variables : local.dynamodb_persistence_environment_variables
 
   # variables common for all three adapters
   environment_variables = concat(concat(var.mhs_environment_variables, local.persistence_environment_variables),[
