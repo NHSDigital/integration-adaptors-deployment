@@ -1,0 +1,94 @@
+name: Retrieve and Validate Build Ids
+
+on:
+  workflow_call:
+    inputs:
+      component:
+        description: Application Component
+        required: true
+        type: string
+      component_build_ids:
+        description: 'Component Build Ids: (i.e gp2gp=PR-855-10-50e5138,gpcc=PR-811-1-20e3452)'
+        required: false
+        type: string
+    outputs:
+      validated_build_ids:
+        description: The validated build ids as JSON
+        value: ${{ jobs.validate-build-ids.outputs.validated_build_ids }}
+
+jobs:
+  validate-build-ids:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    outputs:
+      validated_build_ids: ${{ steps.validate.outputs.validated_build_ids }}
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          role-session-name: github_manual_terraform_job
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Validate component build ids
+        id: validate
+        run: |
+          # Parse the input string into an array
+          declare -A build_ids_map
+          IFS=',' read -ra pairs <<< "${{ inputs.component_build_ids }}"
+          for pair in "${pairs[@]}"; do
+            IFS='=' read -r component build_id <<< "$pair"
+            build_ids_map["$component"]="$build_id"
+          done
+
+          # Initialize the validated_build_ids array
+          validated_build_ids_json=$(echo '{}' | jq '.')
+
+          # Check if the specified component exists in the component_build_ids
+          component="${{ inputs.component }}"
+          if [[ -z "${build_ids_map[$component]}" ]]; then
+            echo "Component '$component' not found in provided build IDs. Retrieving latest build tag from main branch..."
+
+            # Retrieve the latest build tag from the main branch
+            latest_tag=$(aws ecr describe-images \
+              --repository-name "$component" \
+              --region "${{ secrets.AWS_REGION }}" \
+              --query 'sort_by(imageDetails[?starts_with(imageTags[0], `main`)], &imagePushedAt)[-1].imageTags[0]' \
+              --output text | head -n 1)
+
+            latest_tag=$(echo "$latest_tag" | tr -d '\n' | awk '{print $1}')
+
+            if [[ "$latest_tag" == "None" || -z "$latest_tag" ]]; then
+              echo "Error: No builds found on main branch for component $component."
+              exit 1
+            else
+              validated_build_ids_json=$(echo "$validated_build_ids_json" | jq -c --arg key "${component}_build_id" --arg value "$latest_tag" '.[$key] = $value')
+              echo "Found latest build tag for $component: $latest_tag"
+            fi
+          fi
+
+          # Check existence of each image build_id in AWS ECR
+          for component in "${!build_ids_map[@]}"; do
+            build_id="${build_ids_map[$component]}"
+            echo "Validating $component with build_id $build_id"
+
+            echo "Repository name: $component"
+            # Check if the image build_id exists in the ECR repository
+            result=$(aws ecr describe-images \
+              --repository-name "$component" \
+              --region "${{ secrets.AWS_REGION }}" \
+              --query "imageDetails[?imageTags && contains(imageTags, '$build_id')]" \
+              --output json)
+
+            if [[ "$result" == "[]" ]]; then
+              echo "Error: Build Id $build_id does not exist for $component"
+              exit 1
+            else
+              validated_build_ids_json=$(echo "$validated_build_ids_json" | jq -c --arg key "${component}_build_id" --arg value "$build_id" '.[$key] = $value')
+            fi
+          done
+
+          echo "Validated build_ids: $validated_build_ids_json"
+          echo "validated_build_ids=$validated_build_ids_json" >> $GITHUB_OUTPUT
