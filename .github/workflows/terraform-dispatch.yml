@@ -1,0 +1,256 @@
+name: Manual terraform job
+on:
+  workflow_dispatch:
+    inputs:
+      project:
+        description: 'Project'
+        default: nia
+        type: choice
+        options:
+          - nia
+
+      environment:
+        description: 'Environment'
+        required: true
+        default: ptl
+        type: choice
+        options:
+          - ptl
+          - account
+
+      action:
+        description: 'Terraform Action'
+        required: true
+        default: plan
+        type: choice
+        options:
+          - Plan
+          - Apply
+          - Plan Destroy
+          - Destroy
+
+      component:
+        description: 'Component'
+        default: gp2gp
+        type: choice
+        options:
+          - base
+          - nhais
+          - OneOneOne
+          - mhs
+          - account
+          - fake_mesh
+          - nhais_responder
+          - gp2gp
+          - lab-results
+          - pss
+
+      build_ids:
+        description: 'Component Build Ids: (i.e gp2gp=PR-855-10-50e5138,gpc-consumer=PR-811-1-20e3452).'
+        type: string
+
+      additional_variables:
+        description: 'Additional terraform variables: (ie variable1=value1,variable2=value2)'
+        type: string
+
+      repository:
+        description: 'Git repository from which terraform will be read (format: [Organisation/Repository])'
+        required: true
+        default: NHSDigital/integration-adaptors-deployment
+        type: string
+
+      branch:
+        description: 'Git branch from which terraform will be taken'
+        required: true
+        default: main
+        type: string
+
+jobs:
+  call-validate-component-build-ids:
+    name: 'Process Build Ids'
+    uses: ./.github/workflows/validate-build-ids.yml
+    permissions:
+      id-token: write
+      contents: read
+    with:
+      component: ${{ inputs.component }}
+      component_build_ids: ${{ inputs.build_ids }}
+    secrets: inherit
+
+  setup-and-run-terraform-job:
+    name: 'Run Terraform Job'
+    runs-on: ubuntu-latest
+    needs: [call-validate-component-build-ids]
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: 'Configure AWS Credentials'
+        uses: aws-actions/configure-aws-credentials@v4.0.2
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          role-session-name: github_manual_terraform_job
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: 'Checkout Terraform Repository'
+        uses: actions/checkout@v4.1.7
+        with:
+          repository: ${{ inputs.repository }}
+          ref: ${{ inputs.branch }}
+
+      - name: 'Setup Terraform'
+        run: |
+          git clone https://github.com/tfutils/tfenv.git .tfenv
+          cd aws/components/${{ inputs.component }}
+          ../../../.tfenv/bin/tfenv install
+
+      - name: 'Prepare AWS Secrets'
+        id: prepare-aws-secrets
+        run: |
+          global_secret_names=$(aws secretsmanager list-secrets \
+                            --region ${{ secrets.AWS_REGION }} \
+                            --query "SecretList[?starts_with(Name, 'nia-global')].Name" \
+                            --output text)
+          
+          environment_secret_names=$(aws secretsmanager list-secrets \
+                            --region ${{ secrets.AWS_REGION }} \
+                            --query "SecretList[?starts_with(Name, 'nia-${{ inputs.environment }}')].Name" \
+                            --output text)
+          
+          combined_secret_names=($global_secret_names $environment_secret_names)
+          
+          secrets_json=$(echo '{}' | jq '.')
+          
+          for secret_name in "${combined_secret_names[@]}"; do
+            raw_secret_value=$(aws secretsmanager get-secret-value \
+                                --region ${{ secrets.AWS_REGION }} \
+                                --secret-id ${secret_name} \
+                                --query SecretString --output text)
+          
+            if [[ "$secret_name" == *"-kvp" ]]; then
+              echo "Processing -kvp secret: $secret_name"
+          
+              # Parse the secret value as JSON and extract each key-value pair
+              kvp_map=$(echo "$raw_secret_value" | jq -r 'to_entries | map("\(.key)=\(.value | @sh)") | .[]')
+          
+              for kvp in $kvp_map; do
+                key=$(echo "$kvp" | cut -d'=' -f1)
+                value=$(echo "$kvp" | cut -d'=' -f2-)
+                if [[ -n "$key" && -n "$value" ]]; then
+                  echo "::add-mask::$value"
+                  secrets_json=$(echo "$secrets_json" | jq -c --arg key "$key" --arg value "$value" '.[$key] = $value')
+                fi
+              done
+            else
+              echo "::add-mask::$raw_secret_value"
+              secrets_json=$(echo "$secrets_json" | jq -c --arg key "$secret_name" --arg value "$raw_secret_value" '.[$key] = $value')
+            fi
+          done
+          
+          echo "aws_secrets=$secrets_json" >> $GITHUB_OUTPUT
+
+      - name: 'Prepare Additional Variables'
+        id: prepare-additional-variables
+        run: |
+          echo "Additional Variables: ${{ inputs.additional_variables }}"
+          additional_variables_json=$(echo '{}' | jq '.')
+          
+          IFS=',' read -ra pairs <<< "${{ inputs.additional_variables }}"
+          for pair in "${pairs[@]}"; do
+            IFS='=' read -r variable value <<< "$pair"
+              echo "::add-mask::$variable"
+              additional_variables_json=$(echo "$additional_variables_json" | jq -c --arg key "$variable" --arg value "$value" '.[$key] = ($value | fromjson? // $value)')
+          done
+          
+          echo "additional_variables=$additional_variables_json" >> $GITHUB_OUTPUT
+
+      - name: 'Create Terraform Variables File'
+        id: create-terraform-variables-file
+        run: |
+          terraform_vars_file_content_json=$(jq -c -n \
+            --argjson aws_secrets '${{ steps.prepare-aws-secrets.outputs.aws_secrets }}' \
+            --argjson build_ids '${{ needs.call-validate-component-build-ids.outputs.validated_build_ids }}' \
+            --argjson additional_variables '${{ steps.prepare-additional-variables.outputs.additional_variables }}' \
+              '$aws_secrets + $build_ids + $additional_variables')
+          
+          echo "$terraform_vars_file_content_json" | jq -r '
+                  to_entries | .[] |
+                  if (.value | type == "string") then
+                    if ((.value | startswith("[") and endswith("]"))) then
+                      "\(.key) = \(.value)"
+                    else
+                      "\(.key) = \"\(.value)\""
+                    end
+                  else
+                    "\(.key) = \(.value | tojson)"
+                  end
+                ' > aws/etc/secrets.tfvars
+
+      - name: 'Run Terraform: Init'
+        run: |
+          cd aws/components/${{ inputs.component }}
+          terraform init \
+            -backend-config='bucket=${{ secrets.TF_STATE_BUCKET }}'  \
+            -backend-config='region=${{ secrets.AWS_REGION }}' \
+            -backend-config='key=${{ inputs.project }}-${{ inputs.environment }}-${{ inputs.component }}.tfstate' \
+            -input=false
+
+      - name: 'Run Terraform: Plan'
+        run: |
+          cd 'aws/components/${{ inputs.component }}'
+          terraform plan \
+            -var region=${{ secrets.AWS_REGION }} \
+            -var project=${{ inputs.project }} \
+            -var environment=${{ inputs.environment }} \
+            -var tf_state_bucket=${{ secrets.TF_STATE_BUCKET }} \
+            -var-file='../../etc/global.tfvars' \
+            -var-file='../../etc/${{ secrets.AWS_REGION }}_${{ inputs.environment }}.tfvars' \
+            -var-file='../../etc/secrets.tfvars' \
+            -input=false
+
+      - name: 'Run Terraform: Validate'
+        run: |
+          cd 'aws/components/${{ inputs.component }}'
+          terraform validate
+
+      - name: 'Run Terraform: Apply'
+        if: inputs.action == 'Apply'
+        run: |
+          cd 'aws/components/${{ inputs.component }}'
+          terraform apply \
+            -var region=${{ secrets.AWS_REGION }} \
+            -var project=${{ inputs.project }} \
+            -var environment=${{ inputs.environment }} \
+            -var tf_state_bucket=${{ secrets.TF_STATE_BUCKET }} \
+            -var-file='../../etc/global.tfvars' \
+            -var-file='../../etc/${{ secrets.AWS_REGION }}_${{ inputs.environment }}.tfvars' \
+            -var-file='../../etc/secrets.tfvars' \
+            -auto-approve
+
+      - name: 'Run Terraform: Plan Destroy'
+        if: inputs.action == 'Plan Destroy'
+        run: |
+          cd 'aws/components/${{ inputs.component }}'
+          terraform plan -destroy \
+            -var region=${{ secrets.AWS_REGION }} \
+            -var project=${{ inputs.project }} \
+            -var environment=${{ inputs.environment }} \
+            -var tf_state_bucket=${{ secrets.TF_STATE_BUCKET }} \
+            -var-file='../../etc/global.tfvars' \
+            -var-file='../../etc/${{ secrets.AWS_REGION }}_${{ inputs.environment }}.tfvars' \
+            -var-file='../../etc/secrets.tfvars' \
+            -auto-approve
+
+      - name: 'Run Terraform: Destroy'
+        if: inputs.action == 'Destroy'
+        run: |
+          cd 'aws/components/${{ inputs.component }}'
+          terraform destroy \
+            -var region=${{ secrets.AWS_REGION }} \
+            -var project=${{ inputs.project }} \
+            -var environment=${{ inputs.environment }} \
+            -var tf_state_bucket=${{ secrets.TF_STATE_BUCKET }} \
+            -var-file='../../etc/global.tfvars' \
+            -var-file='../../etc/${{ secrets.AWS_REGION }}_${{ inputs.environment }}.tfvars' \
+            -var-file='../../etc/secrets.tfvars' \
+            -auto-approve
