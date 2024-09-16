@@ -46,11 +46,11 @@ on:
           - pss
 
       build_ids:
-        description: 'Component Build Ids: (i.e gp2gp=PR-855-10-50e5138,gpc-consumer=PR-811-1-20e3452).'
+        description: 'Component Build Ids: (i.e. gp2gp=PR-855-10-50e5138,gpc-consumer=PR-811-1-20e3452).'
         type: string
 
       additional_variables:
-        description: 'Additional terraform variables: (ie variable1=value1,variable2=value2)'
+        description: 'Additional terraform variables: (i.e. variable1=value1,variable2=value2)'
         type: string
 
       repository:
