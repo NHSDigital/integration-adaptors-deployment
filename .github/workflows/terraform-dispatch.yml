@@ -190,7 +190,7 @@ jobs:
         run: |
           cd aws/components/${{ inputs.component }}
           terraform init \
-            -backend-config='bucket="${{ secrets.TF_STATE_BUCKET }}'  \
+            -backend-config='bucket=${{ secrets.TF_STATE_BUCKET }}'  \
             -backend-config='region=${{ secrets.AWS_REGION }}' \
             -backend-config='key=${{ inputs.project }}-${{ inputs.environment }}-${{ inputs.component }}.tfstate' \
             -input=false
