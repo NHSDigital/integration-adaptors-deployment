@@ -5,7 +5,6 @@ cluster_container_insights = "enabled"
 docdb_instance_class = "db.t3.medium"
 mongo_ssl_enabled = true
 enable_internet_access = "true"
-create_opentest_instance = false
 postgres_instance_class = "db.t4g.micro"
 create_postgres_db = true
 enable_start_stop_scheduler = true

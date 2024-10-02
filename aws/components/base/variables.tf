@@ -125,22 +125,6 @@ variable "docdb_instance_count" {
   default = 1
 }
 
-variable "opentest_connected" {
-  type = bool
-  description = "Should this environment be connected to OpenTest"
-  default = true
-}
-
-variable "opentest_vpc_id" {
-  type = string
-  description = "Id of vpc with opentest instance"
-}
-
-variable "opentest_sg_id" {
-  type = string
-  description = "Id of Opentest security group"
-}
-
 variable "jenkins_worker_sg_id" {
   type = string
   description = "Id of Jenkins-Worker security group"
@@ -149,11 +133,6 @@ variable "jenkins_worker_sg_id" {
 variable "elasticache_node_type" {
   type = string
   default = "cache.t2.micro"
-}
-
-variable "create_opentest_instance" {
-  type = bool
-  default = false
 }
 
 variable "jumpbox_allowed_ssh" {

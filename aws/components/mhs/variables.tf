@@ -176,24 +176,6 @@ variable mhs_inbound_queue_name {
   description = "Name of queue used by MHS Inbound "
 }
 
-# Opentest
-
-variable "opentest_connected" {
-  type = bool
-  description = "Should this environment be connected to OpenTest"
-  default = true
-}
-
-variable "opentest_instance_id" {
-  type = string
-  description = "Id of vpc with opentest instance"
-}
-
-variable "opentest_sg_id" {
-  type = string
-  description = "Id of Opentest security group"
-}
-
 # Variables related to PTL connectivity
 
 variable "ptl_connected" {
@@ -292,22 +274,22 @@ variable "logs_datetime_format" {
 
 variable secret_name_mhs_party_key {
   type = string
-  default = "opentest-party-key"
+  default = ""
 }
 
 variable secret_name_mhs_client_cert {
   type = string
-  default = "opentest-client-certificate"
+  default = ""
 }
 
 variable secret_name_mhs_client_key {
   type = string
-  default = "opentest-client-key"
+  default = ""
 }
 
 variable secret_name_mhs_ca_certs {
   type = string
-  default = "opentest-ca-certs"
+  default = ""
 }
 
 variable secret_name_mhs_spine_route_lookup_ca_certs {

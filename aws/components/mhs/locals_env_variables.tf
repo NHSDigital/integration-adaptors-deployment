@@ -59,10 +59,6 @@ locals {
       value = var.mhs_outbound_forward_reliable_url
     },
     {
-      name = "MHS_OUTBOUND_HTTP_PROXY"
-      value = var.opentest_connected ? data.aws_instance.opentest_instance.private_ip : ""
-    },
-    {
       name = "MHS_RESYNC_INITIAL_DELAY"
       value = "0.15"
     },
@@ -102,7 +98,7 @@ locals {
   route_variables = concat(local.environment_variables, [
     {
       name = "MHS_SDS_URL"
-      value = var.opentest_connected ? "ldap://${data.aws_instance.opentest_instance.private_ip}" : var.mhs_route_sds_url
+      value = var.mhs_route_sds_url
     },
     {
       name = "MHS_DISABLE_SDS_TLS"
