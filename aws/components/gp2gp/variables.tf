@@ -282,7 +282,7 @@ variable gp2gp_gpc_override_from_asid {
 variable gp2gp_redactions_enabled {
   type = bool
   description = "Toggle redactions support"
-  default = false
+  default = true
 }
 
 # Variables related to PTL connectivity
