@@ -7,8 +7,8 @@ module "gp2gp_ecs_service" {
   region          = var.region
   module_instance = "gp2gp_ecs"
   default_tags    = local.default_tags
-  memory_units    = var.gp2gp_memory_units
   cpu_units       = var.gp2gp_cpu_units
+  memory_units    = var.gp2gp_memory_units
 
   availability_zones = local.availability_zones
 
