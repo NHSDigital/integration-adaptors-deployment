@@ -7,6 +7,8 @@ module "gpc-consumer_ecs_service" {
   region          = var.region
   module_instance = "gpcc_ecs"
   default_tags    = local.gpc-consumer_default_tags
+  cpu_units       = var.gpcc_cpu_units
+  memory_units    = var.gpcc_memory_units
 
   availability_zones = local.availability_zones
 

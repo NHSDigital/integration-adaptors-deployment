@@ -8,7 +8,9 @@ module "gp2gp_wiremock_ecs_service" {
   region          = var.region
   module_instance = "gp2gp_wiremock_ecs"
   default_tags    = local.default_tags
-
+  cpu_units       = var.wiremock_cpu_units
+  memory_units    = var.wiremock_memory_units
+  
   availability_zones = local.availability_zones
 
   image_name        = local.wiremock_image_name
