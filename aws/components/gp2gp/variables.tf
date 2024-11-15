@@ -285,6 +285,42 @@ variable gp2gp_redactions_enabled {
   default = true
 }
 
+variable gp2gp_cpu_units {
+  type = number
+  description = "Set available CPU units  for the GP2GP Service (1024 = 1 vCPU, 2048 = 2 vCPU etc.)"
+  default = 2048
+}
+
+variable gp2gp_memory_units {
+  type = number
+  description = "Set available memory units for the GP2GP Service (1024 = 1GB, 2048 = 2GB etc.)"
+  default = 8192
+}
+
+variable wiremock_cpu_units {
+  type = number
+  description = "Set available CPU units for the wiremock service (1024 = 1 vCPU, 2048 = 2 vCPU etc.)"
+  default = 1024
+}
+
+variable wiremock_memory_units {
+  type = number
+  description = "Set available memory units for the wiremock service (1024 = 1GB, 2048 = 2GB etc.)"
+  default = 4096
+}
+
+variable gpcc_cpu_units {
+  type = number
+  description = "Set available CPU units for the GPCC service (1024 = 1 vCPU, 2048 = 2 vCPU etc.)"
+  default = 2048
+}
+
+variable gpcc_memory_units {
+  type = number
+  description = "Set available memory units for the GPCC service (1024 = 1GB, 2048 = 2GB etc.)"
+  default = 8192
+}
+
 # Variables related to PTL connectivity
 
 variable "ptl_connected" {
