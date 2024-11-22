@@ -37,7 +37,6 @@ module "mhs_route_ecs_service" {
 
   task_execution_role_arn = aws_iam_role.ecs_service_task_execution_role.arn
   task_role_arn           = data.aws_iam_role.ecs_service_task_role.arn
-  task_scaling_role_arn   = data.aws_iam_role.ecs_autoscale_role.arn
   
   additional_security_groups = [
     data.terraform_remote_state.base.outputs.core_sg_id,
