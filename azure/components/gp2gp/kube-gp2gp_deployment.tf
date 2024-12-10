@@ -77,11 +77,6 @@ resource "kubernetes_deployment" "gp2gp" {
           }
 
           env {
-              name = "GP2GP_MONGO_TTL"
-              value = "P84D"
-          }
-
-          env {
             name = "GP2GP_AMQP_BROKERS"
             value = "amqps://${replace(replace(split(";", azurerm_servicebus_namespace_authorization_rule.gp2gp_servicebus_ar.primary_connection_string)[0],"Endpoint=sb://",""),"/","")}:5671/?sasl=plain"
           }
