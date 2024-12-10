@@ -78,7 +78,7 @@ resource "kubernetes_deployment" "gp2gp" {
 
           env {
               name = "GP2GP_MONGO_TTL"
-              value = "P30D"
+              value = "P84D"
           }
 
           env {

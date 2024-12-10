@@ -26,7 +26,7 @@ locals {
     },
     {
       name  = "GP2GP_MONGO_TTL"
-      value = "P30D"
+      value = "P84D"
     },
     {
       name  = "GP2GP_AMQP_BROKERS"
