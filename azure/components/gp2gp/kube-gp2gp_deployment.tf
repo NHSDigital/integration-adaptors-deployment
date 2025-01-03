@@ -132,16 +132,6 @@ resource "kubernetes_deployment" "gp2gp" {
           }
           
           env {
-            name = "GP2GP_GPC_OVERRIDE_TO_ASID"
-            value = var.gp2gp_gpc_override_to_asid
-          }
-          
-          env {
-            name = "GP2GP_GPC_OVERRIDE_FROM_ASID"
-            value = var.gp2gp_gpc_override_from_asid
-          }
-
-          env {
             name = "GP2GP_GPC_GET_STRUCTURED_ENDPOINT"
             value = var.gp2gp_gpc_get_structured_endpoint
           }
