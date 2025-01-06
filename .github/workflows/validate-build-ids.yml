@@ -32,7 +32,13 @@ jobs:
           role-session-name: github_manual_terraform_job
           aws-region: ${{ secrets.AWS_REGION }}
 
+      - name: Set empty validated_build_ids for 'account' component
+        if: ${{ inputs.component == 'account' }}
+        id: set-empty
+        run: echo "validated_build_ids=" >> $GITHUB_OUTPUT
+
       - name: Retrieve and Validate component build ids
+        if: ${{ inputs.component != 'account' }}
         id: validate
         run: |
           
