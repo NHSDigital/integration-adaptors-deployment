@@ -101,8 +101,13 @@ jobs:
       - name: 'Setup Terraform'
         run: |
           git clone https://github.com/tfutils/tfenv.git .tfenv
+          
+          echo 'export PATH="$PWD/.tfenv/bin:$PATH"' >> ~/.bash_profile
           cd aws/components/${{ inputs.component }}
           ../../../.tfenv/bin/tfenv install
+        
+          
+          
 
       - name: 'Prepare AWS Secrets'
         id: prepare-aws-secrets
