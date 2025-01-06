@@ -4,7 +4,7 @@ ecr_repositories = [
     name = "111",
     scan = false,
     expire_PR_after = 10,
-    prefix_to_keep  = "master",
+    prefix_to_keep  = "main",
     number_to_keep  = 10
   },
   {
