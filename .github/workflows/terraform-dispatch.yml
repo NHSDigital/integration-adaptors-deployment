@@ -167,11 +167,14 @@ jobs:
       - name: 'Create Terraform Variables File'
         id: create-terraform-variables-file
         run: |
+          validated_build_ids='${{ needs.call-validate-component-build-ids.outputs.validated_build_ids }}'
+
           terraform_vars_file_content_json=$(jq -c -n \
             --argjson aws_secrets '${{ steps.prepare-aws-secrets.outputs.aws_secrets }}' \
-            --argjson build_ids '${{ needs.call-validate-component-build-ids.outputs.validated_build_ids }}' \
             --argjson additional_variables '${{ steps.prepare-additional-variables.outputs.additional_variables }}' \
-              '$aws_secrets + $build_ids + $additional_variables')
+            --argjson build_ids "${validated_build_ids}" \
+            '$aws_secrets + (if (has("build_ids") and $build_ids != {}) then {build_ids: $build_ids} else {} end) + $additional_variables')
+          
           
           echo "$terraform_vars_file_content_json" | jq -r '
                   to_entries | .[] |

@@ -34,8 +34,8 @@ jobs:
 
       - name: Set empty validated_build_ids for 'account' component
         if: ${{ inputs.component == 'account' }}
-        id: set-empty
-        run: echo "validated_build_ids=" >> $GITHUB_OUTPUT
+        id: set-empty-for-account
+        run: echo "validated_build_ids={}" >> $GITHUB_OUTPUT
 
       - name: Retrieve and Validate component build ids
         if: ${{ inputs.component != 'account' }}
@@ -146,3 +146,12 @@ jobs:
           done
 
           echo "validated_build_ids=$validated_build_ids_json" >> $GITHUB_OUTPUT
+
+      - name: Set final validated_build_ids output
+        id: set-output
+        run: |
+          if [ "${{ inputs.component }}" == "account" ]; then
+            echo "validated_build_ids=${{ steps.set-empty-for-account.outputs.validated_build_ids }}" >> $GITHUB_OUTPUT
+          else
+            echo "validated_build_ids=${{ steps.validate.outputs.validated_build_ids }}" >> $GITHUB_OUTPUT              echo "validated_build_ids=${{ steps.validate.outputs.validated_build_ids }}" >> $GITHUB_OUTPUT
+          fi
