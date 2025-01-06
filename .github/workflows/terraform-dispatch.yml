@@ -197,7 +197,7 @@ jobs:
 
       - name: 'Run Terraform: Init'
         run: |
-          PATH="${{ steps.setup-terraform.outputs.terraform_path }}:$PATH"'
+          PATH="${{ steps.setup-terraform.outputs.terraform_path }}:$PATH"
           cd aws/components/${{ inputs.component }}
           terraform init \
             -backend-config='bucket=${{ secrets.TF_STATE_BUCKET }}'  \
