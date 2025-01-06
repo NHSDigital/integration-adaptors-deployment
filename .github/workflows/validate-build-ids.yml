@@ -55,9 +55,7 @@ jobs:
 
             # get "main" branch for repository as 'primary_branch'
             if [ "$input_component" = "nhais" ]; then
-              primary_branch="develop"
-            elif [ "$input_component" = "111" ]; then
-              primary_branch="master"
+              primary_branch="develop"            
             elif [ "$input_component" = "nhais-fake-responder" ]; then
               primary_branch="origin-develop"
             else
