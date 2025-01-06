@@ -167,15 +167,19 @@ jobs:
       - name: 'Create Terraform Variables File'
         id: create-terraform-variables-file
         run: |
-          validated_build_ids='${{ needs.call-validate-component-build-ids.outputs.validated_build_ids }}'
-
-          terraform_vars_file_content_json=$(jq -c -n \
-            --argjson aws_secrets '${{ steps.prepare-aws-secrets.outputs.aws_secrets }}' \
-            --argjson additional_variables '${{ steps.prepare-additional-variables.outputs.additional_variables }}' \
-            --argjson build_ids "${validated_build_ids}" \
-            '$aws_secrets + (if (has("build_ids") and $build_ids != {}) then {build_ids: $build_ids} else {} end) + $additional_variables')
-          
-          
+          if [[ ${{ inputs.component }} == "account" ]]; then
+            terraform_vars_file_content_json=$(jq -c -n \
+              --argjson aws_secrets '${{ steps.prepare-aws-secrets.outputs.aws_secrets }}' \
+              --argjson additional_variables '${{ steps.prepare-additional-variables.outputs.additional_variables }}' \
+              '$aws_secrets + $additional_variables')
+          else
+            terraform_vars_file_content_json=$(jq -c -n \
+              --argjson aws_secrets '${{ steps.prepare-aws-secrets.outputs.aws_secrets }}' \
+              --argjson additional_variables '${{ steps.prepare-additional-variables.outputs.additional_variables }}' \
+              --argjson build_ids "${{ needs.call-validate-component-build-ids.outputs.validated_build_ids }}" \
+              '$aws_secrets + $build_ids + $additional_variables')
+          fi
+            
           echo "$terraform_vars_file_content_json" | jq -r '
                   to_entries | .[] |
                   if (.value | type == "string") then
