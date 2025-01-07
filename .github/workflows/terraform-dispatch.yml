@@ -101,10 +101,14 @@ jobs:
       - name: 'Setup Terraform'
         id: setup-terraform
         run: |
-          git clone https://github.com/tfutils/tfenv.git .tfenv
           cd aws/components/${{ inputs.component }}
-          ../../../.tfenv/bin/tfenv install
-          echo "terraform_path=$HOME/.tfenv/bin" >> $GITHUB_OUTPUT
+          git clone https://github.com/tfutils/tfenv.git .tfenv
+          cd .tfenv/bin/
+          tfenv install
+          echo ls
+          echo $PWD
+
+          echo "terraform_path=$PWD/.tfenv/bin" >> $GITHUB_OUTPUT
 
       - name: 'Prepare AWS Secrets'
         id: prepare-aws-secrets
@@ -199,7 +203,7 @@ jobs:
         run: |
           PATH="${{ steps.setup-terraform.outputs.terraform_path }}:$PATH"
           cd aws/components/${{ inputs.component }}
-          echo $PWD
+         
           cd ${{ steps.setup-terraform.outputs.terraform_path }};
           terraform init \
             -backend-config='bucket=${{ secrets.TF_STATE_BUCKET }}'  \
