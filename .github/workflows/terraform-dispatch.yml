@@ -99,12 +99,10 @@ jobs:
           ref: ${{ inputs.branch }}
 
       - name: 'Setup Terraform'
-        id: setup-terraform
         run: |
-          git clone --depth=1 https://github.com/tfutils/tfenv.git ~/.tfenv
-          echo "$HOME/.tfenv/bin" >> $GITHUB_PATH
-          tfenv install
-          
+          git clone https://github.com/tfutils/tfenv.git .tfenv
+          cd aws/components/${{ inputs.component }}
+          ../../../.tfenv/bin/tfenv install
 
       - name: 'Prepare AWS Secrets'
         id: prepare-aws-secrets
