@@ -100,9 +100,19 @@ jobs:
 
       - name: 'Setup Terraform'
         run: |
-          git clone https://github.com/tfutils/tfenv.git .tfenv
           cd aws/components/${{ inputs.component }}
-          ../../../.tfenv/bin/tfenv install
+          git clone https://github.com/tfutils/tfenv.git .tfenv
+          echo "$PWD/.tfenv/bin" >> $GITHUB_PATH
+          tf_version=$(cat .terraform-version)
+                    
+          ./.tfenv/bin/tfenv install
+          
+          ./.tfenv/bin/tfenv use $tf_version
+          
+          TF_BIN_PATH=$(./.tfenv/bin/tfenv which $tf_version)
+          TF_DIR=$(dirname "$TF_BIN_PATH")
+          
+          echo "$TF_DIR" >> $GITHUB_PATH
 
       - name: 'Prepare AWS Secrets'
         id: prepare-aws-secrets
@@ -196,8 +206,8 @@ jobs:
       - name: 'Run Terraform: Init'
         run: |
           cd aws/components/${{ inputs.component }}
-         
-          terraform init \
+          
+          ../../../.tfenv/bin/tfenv/terraform init \
             -backend-config='bucket=${{ secrets.TF_STATE_BUCKET }}'  \
             -backend-config='region=${{ secrets.AWS_REGION }}' \
             -backend-config='key=${{ inputs.project }}-${{ inputs.environment }}-${{ inputs.component }}.tfstate' \
