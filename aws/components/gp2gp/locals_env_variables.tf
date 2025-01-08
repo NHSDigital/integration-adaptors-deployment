@@ -25,10 +25,6 @@ locals {
       value = "gp2gp"
     },
     {
-      name  = "GP2GP_MONGO_TTL"
-      value = "P30D"
-    },
-    {
       name  = "GP2GP_AMQP_BROKERS"
       value = replace(data.aws_mq_broker.nhais_mq_broker.instances[0].endpoints[1], "amqp+ssl", "amqps") # https://www.terraform.io/docs/providers/aws/r/mq_broker.html#attributes-reference
     },
@@ -67,14 +63,6 @@ locals {
     {
       name = "GP2GP_GPC_OVERRIDE_NHS_NUMBER"
       value = var.gp2gp_gpc_override_nhs_number
-    },
-    {
-      name = "GP2GP_GPC_OVERRIDE_TO_ASID"
-      value = var.gp2gp_gpc_override_to_asid
-    },
-    {
-      name = "GP2GP_GPC_OVERRIDE_FROM_ASID"
-      value = var.gp2gp_gpc_override_from_asid
     },
     {
       name = "GP2GP_REDACTIONS_ENABLED"

@@ -44,8 +44,6 @@ gp2gp_application_port = 80
 gp2gp_container_port = 8080
 gp2gp_log_level = "INFO"
 gp2gp_gpc_override_nhs_number = "9690938622"
-gp2gp_gpc_override_to_asid = "200000001329"
-gp2gp_gpc_override_from_asid = "200000001467"
 
 #GPC-CONSUMER CONFIGURATION
 gpc-consumer_image = "nhsdev/nia-gpc-consumer-adaptor:0.2.8"    # 0.1.5 / 0.2.5 / 0.2.8
