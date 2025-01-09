@@ -79,7 +79,7 @@ jobs:
 
   setup-and-run-terraform-job:
     name: 'Run Terraform Job'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: [call-validate-component-build-ids]
     permissions:
       id-token: write
@@ -100,9 +100,10 @@ jobs:
 
       - name: 'Setup Terraform'
         run: |
-          git clone https://github.com/tfutils/tfenv.git .tfenv
           cd aws/components/${{ inputs.component }}
-          ../../../.tfenv/bin/tfenv install
+          git clone https://github.com/tfutils/tfenv.git .tfenv        
+          ./.tfenv/bin/tfenv install
+          echo "$(pwd)/.tfenv/bin" >> $GITHUB_PATH
 
       - name: 'Prepare AWS Secrets'
         id: prepare-aws-secrets
@@ -167,12 +168,19 @@ jobs:
       - name: 'Create Terraform Variables File'
         id: create-terraform-variables-file
         run: |
-          terraform_vars_file_content_json=$(jq -c -n \
-            --argjson aws_secrets '${{ steps.prepare-aws-secrets.outputs.aws_secrets }}' \
-            --argjson build_ids '${{ needs.call-validate-component-build-ids.outputs.validated_build_ids }}' \
-            --argjson additional_variables '${{ steps.prepare-additional-variables.outputs.additional_variables }}' \
+          if [[ ${{ needs.call-validate-component-build-ids.outputs.validated_build_ids }} == {} ]]; then
+            terraform_vars_file_content_json=$(jq -c -n \
+              --argjson aws_secrets '${{ steps.prepare-aws-secrets.outputs.aws_secrets }}' \
+              --argjson additional_variables '${{ steps.prepare-additional-variables.outputs.additional_variables }}' \
+              '$aws_secrets + $additional_variables')
+          else
+            terraform_vars_file_content_json=$(jq -c -n \
+              --argjson aws_secrets '${{ steps.prepare-aws-secrets.outputs.aws_secrets }}' \
+              --argjson additional_variables '${{ steps.prepare-additional-variables.outputs.additional_variables }}' \
+              --argjson build_ids '${{ needs.call-validate-component-build-ids.outputs.validated_build_ids }}' \
               '$aws_secrets + $build_ids + $additional_variables')
-          
+          fi
+            
           echo "$terraform_vars_file_content_json" | jq -r '
                   to_entries | .[] |
                   if (.value | type == "string") then
@@ -189,6 +197,7 @@ jobs:
       - name: 'Run Terraform: Init'
         run: |
           cd aws/components/${{ inputs.component }}
+          
           terraform init \
             -backend-config='bucket=${{ secrets.TF_STATE_BUCKET }}'  \
             -backend-config='region=${{ secrets.AWS_REGION }}' \

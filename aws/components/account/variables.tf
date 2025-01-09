@@ -48,7 +48,7 @@ variable "jumpbox_allowed_ssh" {
 }
 
 variable "jumpbox_size" {
-  type = "string"
+  type = string
   default = "t3a.medium"
 }
 
