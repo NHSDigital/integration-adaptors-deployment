@@ -41,6 +41,13 @@ jobs:
         if: ${{ inputs.component != 'account' }}
         id: validate
         run: |
+          declare -A ecr_repo_map;
+          ecr_repo_map["OneOneOne"]: "111";
+          ecr_repo_map["nhais"]: "nhais";
+          ecr_repo_map["nhais_responder"]: "nhais-fake-responder";
+          ecr_repo_map["gp2gp"]: "gp2gp";
+          ecr_repo_map["lab-results"]: "lab-results";
+          ecr_repo_map["pss"]: "pss_gp2gp-translator";
           
           # Parse the input string into an associative array as 'build_ids_map'
           declare -A build_ids_map
@@ -69,10 +76,12 @@ jobs:
             fi
           
             echo "Component '$input_component' not found in provided build ids."
-            echo "Retrieving latest build tag from '$primary_branch' branch..."      
+            echo "Retrieving latest build tag from '$primary_branch' branch..." 
+          
+            repositoryName=ecr_repo_map["$input_component"]
           
             latest_tag=$(aws ecr describe-images \
-              --repository-name "$input_component" \
+              --repository-name "$repositoryName" \
               --region "${{ secrets.AWS_REGION }}" \
               --query "sort_by(imageDetails[?starts_with(imageTags[0], \`$primary_branch\`)], &imagePushedAt)[-1].imageTags[0]" \
               --output text | head -n 1)
