@@ -103,9 +103,9 @@ jobs:
             fi
           fi
           
-          echo "input component is $input_component"
+          echo $input_component
           
-          if [[ "$input_component"=="gp2gp" ]]; then
+          if [ "$input_component"=="gp2gp"]; then
             echo "Provided component is gp2gp and build tag has been not provided for gpc-consumer".
             echo "Retrieving latest build tag for 'gpc-consumer'..."
           
