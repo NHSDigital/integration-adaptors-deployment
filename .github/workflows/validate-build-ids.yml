@@ -103,7 +103,7 @@ jobs:
             fi
           fi
           
-          if [[ "$input_component"=="gp2gp" ]] && -[ -z "${build_ids_map[gpc-consumer]}" ]]; then
+          if [[ "$input_component"=="gp2gp" ]] && [[ -z "${build_ids_map[gpc-consumer]}" ]]; then
             echo "Provided component is gp2gp and build tag has been not provided for gpc-consumer".
             echo "Retrieving latest build tag for 'gpc-consumer'..."
           
