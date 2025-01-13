@@ -82,7 +82,7 @@ jobs:
             ecr_repo_name=${ecr_repo_map[$input_component]}
           
             latest_tag=$(aws ecr describe-images \
-              --repository-name "$repositoryName" \
+              --repository-name "$ecr_repo_name" \
               --region "${{ secrets.AWS_REGION }}" \
               --query "sort_by(imageDetails[?starts_with(imageTags[0], \`$primary_branch\`)], &imagePushedAt)[-1].imageTags[0]" \
               --output text | head -n 1)
