@@ -32,6 +32,9 @@ jobs:
           role-session-name: github_manual_terraform_job
           aws-region: ${{ secrets.AWS_REGION }}
 
+      - name: 'Checkout Terraform Repository'
+        uses: actions/checkout@v4.1.7
+
       - name: Set empty validated_build_ids for 'account' component
         if: ${{ inputs.component == 'account' }}
         id: set-empty-for-account
@@ -41,6 +44,7 @@ jobs:
         if: ${{ inputs.component != 'account' }}
         id: validate
         run: |
+          echo $pwd
           cd ./.github/scripts
           chmod +x ./.github/scripts/validate-build-ids.sh
           ./validate-build-ids.sh
