@@ -46,5 +46,5 @@ jobs:
         run: |
           cd ./.github/scripts
           chmod +x ./validate-build-ids.sh
-          ./validate-build-ids.sh ${{ inputs.component }} ${{ inputs.component_build_ids }}
+          ./validate-build-ids.sh ${{ inputs.component }} ${{ inputs.component_build_ids }} ${{ secrets.AWS_REGION }}
           
