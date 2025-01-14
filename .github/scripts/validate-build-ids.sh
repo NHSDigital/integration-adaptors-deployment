@@ -2,9 +2,12 @@ component=$1
 component_build_ids=$2
 aws_region=$3
 
+echo "COMP:"
 echo "$component"
+echo "BUILD: "
 echo "$component_build_ids"
-echo "$aws_region"
+echo "REGION:"
+echpo "$aws_region"
 
 declare -A ecr_repo_map=(
             ["OneOneOne"]="111"
