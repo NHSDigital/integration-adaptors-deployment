@@ -44,7 +44,7 @@ jobs:
         if: ${{ inputs.component != 'account' }}
         id: validate
         run: |
-          echo $pwd
+          $pwd
           cd ./.github/scripts
           chmod +x ./.github/scripts/validate-build-ids.sh
           ./validate-build-ids.sh
