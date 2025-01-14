@@ -2,6 +2,10 @@ component=$1
 component_build_ids=$2
 aws_region=$3
 
+echo "$component"
+echo "$component_build_ids"
+echo "$aws_region"
+
 declare -A ecr_repo_map=(
             ["OneOneOne"]="111"
             ["nhais"]="nhais"
@@ -69,8 +73,8 @@ if [[ "$input_component" == "gp2gp" && -z "${build_ids_map[gpc-consumer]}" ]]; t
 
   latest_tag=$(aws ecr describe-images \
     --repository-name "gpc-consumer" \
-    --region "$aws_region" \
-    --query "sort_by(imageDetails[?starts_with(imageTags[0], $(main))], &imagePushedAt)[-1].imageTags[0]" \
+    --region $aws_region \
+    --query "sort_by(imageDetails[?starts_with(imageTags[0], 'main')], &imagePushedAt)[-1].imageTags[0]" \
     --output text | head -n 1)
 
   # format the latest tag to ensure only the first build tag is used
@@ -97,7 +101,7 @@ for component in "${!build_ids_map[@]}"; do
   # Check if the image build_id exists in the ECR repository
   result=$(aws ecr describe-images \
     --repository-name "$component" \
-    --region "$aws_region" \
+    --region "${{ secrets.AWS_REGION }}" \
     --query "imageDetails[?imageTags && contains(imageTags, '$build_id')]" \
     --output json)
 
