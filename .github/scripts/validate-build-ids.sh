@@ -96,7 +96,7 @@ for component in "${!build_ids_map[@]}"; do
 
   # Check if the image build_id exists in the ECR repository
   result=$(aws ecr describe-images \
-    --repository-name "$input_component" \
+    --repository-name "$ecr_repo_name" \
     --region "$aws_region" \
     --query "imageDetails[?imageTags && contains(imageTags, '$build_id')]" \
     --output json)
