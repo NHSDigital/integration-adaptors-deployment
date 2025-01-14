@@ -42,10 +42,10 @@ done
 # Initialize JSON output as 'validated_build_id_json'
 validated_build_ids_json=$(echo '{}' | jq '.')
 
-ecr_repo_name=${ecr_repo_map[$input_component]}
-
 input_component=$component
 echo "Processing build ids for '$input_component'..."
+
+ecr_repo_name=${ecr_repo_map[$input_component]}
 
 # Check if the specified component exists in the component_build_ids
 if [[ -z "${build_ids_map[$input_component]}" ]]; then
