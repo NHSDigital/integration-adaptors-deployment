@@ -2,13 +2,6 @@ component=$1
 component_build_ids=$2
 aws_region=$3
 
-echo "COMP:"
-echo "$component"
-echo "BUILD: "
-echo "$component_build_ids"
-echo "REGION:"
-echpo "$aws_region"
-
 declare -A ecr_repo_map=(
             ["OneOneOne"]="111"
             ["nhais"]="nhais"
@@ -76,7 +69,7 @@ if [[ "$input_component" == "gp2gp" && -z "${build_ids_map[gpc-consumer]}" ]]; t
 
   latest_tag=$(aws ecr describe-images \
     --repository-name "gpc-consumer" \
-    --region $aws_region \
+    --region "$aws_region" \
     --query "sort_by(imageDetails[?starts_with(imageTags[0], 'main')], &imagePushedAt)[-1].imageTags[0]" \
     --output text | head -n 1)
 
