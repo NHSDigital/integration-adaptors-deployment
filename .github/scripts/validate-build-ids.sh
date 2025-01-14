@@ -45,7 +45,7 @@ if [[ -z "${build_ids_map[$input_component]}" ]]; then
   latest_tag=$(aws ecr describe-images \
     --repository-name "$ecr_repo_name" \
     --region "$aws_region" \
-    --query "sort_by(imageDetails[?starts_with(imageTags[0], \`$primary_branch\`)], &imagePushedAt)[-1].imageTags[0]" \
+    --query "sort_by(imageDetails[?starts_with(imageTags[0], '$primary_branch')], &imagePushedAt)[-1].imageTags[0]" \
     --output text | head -n 1)
 
   # format the latest tag to ensure only the first build tag is used
