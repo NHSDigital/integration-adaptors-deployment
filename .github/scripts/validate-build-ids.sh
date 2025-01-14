@@ -42,6 +42,8 @@ done
 # Initialize JSON output as 'validated_build_id_json'
 validated_build_ids_json=$(echo '{}' | jq '.')
 
+ecr_repo_name=${ecr_repo_map[$input_component]}
+
 input_component=$component
 echo "Processing build ids for '$input_component'..."
 
@@ -54,7 +56,7 @@ if [[ -z "${build_ids_map[$input_component]}" ]]; then
   echo "Component '$input_component' not found in provided build ids."
   echo "Retrieving latest build tag from '$primary_branch' branch..."
 
-  ecr_repo_name=${ecr_repo_map[$input_component]}
+
 
   latest_tag=$(get_latest_tag "$ecr_repo_name" "$aws_region" "$primary_branch")
 
