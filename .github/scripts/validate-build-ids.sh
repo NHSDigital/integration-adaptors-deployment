@@ -1,5 +1,4 @@
 #!/bin/bash
-set -euo pipefail
 
 input_component=$1
 component_build_ids=$2
@@ -111,7 +110,7 @@ done
 
 validated_build_ids_json='{}'
 
-echo "Processing build IDs for component '$input_component'..."
+echo "Processing build IDs for component '$input_component'..." >&2
 
 if [[ -z "${build_ids_map[$input_component]:-}" ]]; then
     echo "Component '$input_component' not found in provided build IDs. Retrieving latest build tag..." >&2
