@@ -132,4 +132,4 @@ for component in "${!build_ids_map[@]}"; do
 done
 
 echo "$validated_build_ids_json"
-return 0
+ exit 0
