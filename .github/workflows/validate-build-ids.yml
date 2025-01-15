@@ -43,6 +43,7 @@ jobs:
       - name: Retrieve and Validate component build ids
         if: ${{ inputs.component != 'account' }}
         id: validate
+        shell: bash
         run: |
           cd ./.github/scripts
           chmod +x ./validate-build-ids.sh
