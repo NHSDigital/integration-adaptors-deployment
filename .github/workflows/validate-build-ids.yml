@@ -46,5 +46,6 @@ jobs:
         run: |
           cd ./.github/scripts
           chmod +x ./validate-build-ids.sh
-          validated_build_ids=$(./validate-build-ids.sh "${{ inputs.component }}" "${{ inputs.component_build_ids }}" "${{ secrets.AWS_REGION }}")
-          echo "validated_build_ids=$validated_build_ids" >> $GITHUB_OUTPUT
+          ./validate-build-ids.sh "${{ inputs.component }}" "${{ inputs.component_build_ids }}" "${{ secrets.AWS_REGION }}")
+
+#          echo "validated_build_ids=$validated_build_ids" >> $GITHUB_OUTPUT

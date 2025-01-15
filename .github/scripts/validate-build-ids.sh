@@ -131,5 +131,5 @@ for component in "${!build_ids_map[@]}"; do
     validated_build_ids_json=$(add_to_json "$validated_build_ids_json" "${component}_build_id" "$build_id")
 done
 
-echo "$validated_build_ids_json"
- exit 0
+echo "$validated_build_ids_json" >&1
+exit 0
