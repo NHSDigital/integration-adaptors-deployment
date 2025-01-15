@@ -126,7 +126,10 @@ for component in "${!build_ids_map[@]}"; do
     build_id="${build_ids_map[$component]}"
     validate_build_id "$component" "$build_id"
 
-    add_to_json "$validated_build_ids_json" "${component}}_build_id" "$build_id"
+    validated_build_ids_json=$(echo "$validated_build_ids_json" \
+                                    | jq -c --arg key "${component}_build_id" \
+                                    --arg value "$build_id" \
+                                    '.[$key] = $value')
 done
 
 echo "$validated_build_ids_json" >&1
