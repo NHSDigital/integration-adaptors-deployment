@@ -101,7 +101,6 @@ validate_build_id() {
 }
 
 declare -A build_ids_map
-
 IFS=',' read -ra pairs <<< "$component_build_ids"
 for pair in "${pairs[@]}"; do
     IFS='=' read -r component build_id <<< "$pair"
@@ -127,7 +126,7 @@ for component in "${!build_ids_map[@]}"; do
     build_id="${build_ids_map[$component]}"
     validate_build_id "$component" "$build_id"
 
-    validated_build_ids_json=$(add_to_json "$validated_build_ids_json" "${component}_build_id" "$build_id")
+    add_to_json "$validated_build_ids_json" "${component}}_build_id" "$build_id"
 done
 
 echo "$validated_build_ids_json" >&1
