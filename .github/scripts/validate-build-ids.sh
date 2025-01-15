@@ -40,13 +40,6 @@ get_latest_tag() {
         --output text | awk '{print $1}'
 }
 
-add_to_json() {
-    local json="$1"
-    local key="$2"
-    local value="$3"
-    echo "$json" | jq --arg key "$key" --arg value "$value" '.[$key] = $value'
-}
-
 fetch_latest_build_id() {
     local component="$1"
     local repo_name="${ECR_REPOSITORY_MAP[$component]:-}"
