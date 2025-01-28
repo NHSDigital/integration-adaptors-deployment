@@ -11,6 +11,7 @@ declare -A ECR_REPOSITORY_MAP=(
             ["gp2gp"]="gp2gp"
             ["lab-results"]="lab-results"
             ["pss"]="pss_gp2gp-translator"
+            ["mhs"]="mhs/outbound"
 )
 
 get_primary_branch() {
