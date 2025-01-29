@@ -12,6 +12,7 @@ declare -A ECR_REPOSITORY_MAP=(
             ["lab-results"]="lab-results"
             ["pss"]="pss_gp2gp-translator"
             ["mhs"]="mhs/outbound"
+            ["gpc-consumer"]="gpc-consumer"
 )
 
 get_primary_branch() {
