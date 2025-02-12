@@ -38,11 +38,11 @@ locals {
     },
     {
       name = "LAB_RESULTS_MONGO_HOST"
-      value = "${data.terraform_remote_state.base.outputs.docdb_cluster_endpoint}"
+      value = data.terraform_remote_state.base.outputs.docdb_cluster_endpoint
     },
     {
       name = "LAB_RESULTS_MONGO_PORT"
-      value = "${data.terraform_remote_state.base.outputs.docdb_instance_port}"
+      value = data.terraform_remote_state.base.outputs.docdb_instance_port
     },
     {
       name = "LAB_RESULTS_MONGO_OPTIONS"
