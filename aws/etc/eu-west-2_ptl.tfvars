@@ -23,6 +23,14 @@ nhais_mesh_cert_validation = "true"
 nhais_mongo_options = "replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false&tls=true"
 nhais_ssl_trust_store_url = "s3://nhsd-aws-truststore/rds-truststore.jks"
 
+# Settings for "nhais_responder" component
+nhais_responder_service_minimal_count = 1
+nhais_responder_service_desired_count = 1
+nhais_responder_service_maximal_count = 1
+nhais_responder_service_container_port = 8090
+nhais_responder_service_launch_type = "FARGATE"
+nhais_responder_log_level = "DEBUG"
+
 # Settings for "lab-results" component
 lab-results_service_minimal_count = 1
 lab-results_service_desired_count = 1
