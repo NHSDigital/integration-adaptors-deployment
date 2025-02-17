@@ -59,6 +59,10 @@ locals {
       value = var.mhs_outbound_forward_reliable_url
     },
     {
+      name = "MHS_ASYNCHRONOUS_RELIABLE_ENDPOINT_URL"
+      value = "https://msg.int.spine2.ncrs.nhs.uk/reliablemessaging/reliablerequest"
+    },
+    {
       name = "MHS_RESYNC_INITIAL_DELAY"
       value = "0.15"
     },
