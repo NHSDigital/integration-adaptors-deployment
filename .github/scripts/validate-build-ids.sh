@@ -95,6 +95,7 @@ validate_build_id() {
         fi
     else
         echo "Error: Build tag '$build_id' could not be retrieved for '$component'." >&2
+        exit 1
     fi
 }
 
