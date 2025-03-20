@@ -80,18 +80,21 @@ validate_build_id() {
     echo "Validating build ID '$build_id' for component '$component'..." >&2
 
     local exists
-    exists=$(aws ecr describe-images \
+    if exists=$(aws ecr describe-images \
         --repository-name "$repo_name" \
         --region "$aws_region" \
         --image-ids imageTag="$build_id" \
         --query 'imageDetails' \
-        --output json)
+        --output json); then
 
-    if [[ "$exists" == "[]" ]]; then
-        echo "Error: Build tag '$build_id' does not exist for component '$component'." >&2
-        exit 1
+        if [[ "$exists" == "[]" ]]; then
+            echo "Error: Build tag '$build_id' does not exist for component '$component'." >&2
+            exit 1
+        else
+            echo "Build tag '$build_id' for component '$component' is valid." >&2
+        fi
     else
-        echo "Build tag '$build_id' for component '$component' is valid." >&2
+        echo "Error: Build tag '$build_id' could not be retrieved for '$component'." >&2
     fi
 }
 
