@@ -16,9 +16,5 @@ locals {
         name = "PEM111_ITK_ODS_CODE_LIST"
         valueFrom = data.aws_secretsmanager_secret.pem111_itk_ods_code_list.arn
       },
-      {
-        name = "PEM111_ITK_EXTERNAL_CONFIGURATION_URL"
-        valueFrom = data.aws_secretsmanager_secret.pem111_itk_external_configuration_url.arn
-      }
   ]
 }
