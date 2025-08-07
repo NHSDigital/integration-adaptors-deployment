@@ -6,7 +6,7 @@ locals {
     },
     {
       name = "PEM111_AMQP_QUEUE_NAME"
-      value = "pem111_queue"
+      valueFrom = data.aws_secretsmanager_secret.pem111_queue.name
     },
     {
       name = "LOG_LEVEL"
