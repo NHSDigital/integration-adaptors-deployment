@@ -15,6 +15,10 @@ locals {
     {
       name = "PEM111_ITK_ODS_CODE_LIST"
       value = "EM396"
+    },
+    {
+      name = "PEM111_ITK_EXTERNAL_CONFIGURATION_URL"
+      value = ""
     }
   ])
 }
