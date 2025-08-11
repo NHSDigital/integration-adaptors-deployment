@@ -6,7 +6,7 @@ locals {
     },
     {
       name = "PEM111_AMQP_QUEUE_NAME"
-      value = "pem111_queue"
+      value = var.pem111_ampq_queue_name
     },
     {
       name = "LOG_LEVEL"
@@ -14,11 +14,11 @@ locals {
     },
     {
       name = "PEM111_ITK_ODS_CODE_LIST"
-      value = "EM396"
+      value = var.OneOneOne_itk_ods_code_list
     },
     {
       name = "PEM111_ITK_EXTERNAL_CONFIGURATION_URL"
-      value = ""
+      value = var.pem111_itk_external_configuration_url
     }
   ])
 }

@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1a7e23d9-2f58-4a4f-8a3f-faedce59420b" name="Changes" comment="Adding last secrets" />
+    <list default="true" id="1cbe24f0-ccd7-46bb-8a40-f337c0e9c698" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/integration-adaptors-deployment.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aws/components/OneOneOne/locals_env_variables.tf" beforeDir="false" afterPath="$PROJECT_DIR$/aws/components/OneOneOne/locals_env_variables.tf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aws/components/OneOneOne/variables.tf" beforeDir="false" afterPath="$PROJECT_DIR$/aws/components/OneOneOne/variables.tf" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -19,7 +27,7 @@
   <component name="ProjectColorInfo"><![CDATA[{
   "associatedIndex": 5
 }]]></component>
-  <component name="ProjectId" id="30xZbZfqApt49xLRjuwVUoo9p0r" />
+  <component name="ProjectId" id="30zu1lQct8fScQpKOetsAPoFqaM" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -28,7 +36,8 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "NIAD-Fix-111-Deployment",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "NIAD-111-deployment",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/chiaramapelli/Documents/nhs/integration-adaptors-deployment",
     "node.js.detected.package.eslint": "true",
@@ -42,53 +51,16 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="1a7e23d9-2f58-4a4f-8a3f-faedce59420b" name="Changes" comment="" />
-      <created>1754571256860</created>
+      <changelist id="1cbe24f0-ccd7-46bb-8a40-f337c0e9c698" name="Changes" comment="" />
+      <created>1754642509474</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1754571256860</updated>
-      <workItem from="1754571257913" duration="6709000" />
+      <updated>1754642509474</updated>
+      <workItem from="1754642510523" duration="2165000" />
     </task>
-    <task id="LOCAL-00001" summary="Adding last secrets">
-      <option name="closed" value="true" />
-      <created>1754579935628</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1754579935628</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Adding last secrets">
-      <option name="closed" value="true" />
-      <created>1754580154749</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1754580154749</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Adding last secrets">
-      <option name="closed" value="true" />
-      <created>1754580766662</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1754580766662</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Adding last secrets">
-      <option name="closed" value="true" />
-      <created>1754582219812</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1754582219812</updated>
-    </task>
-    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="Adding last secrets" />
-    <option name="LAST_COMMIT_MESSAGE" value="Adding last secrets" />
   </component>
 </project>

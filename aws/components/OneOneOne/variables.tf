@@ -111,6 +111,24 @@ variable "OneOneOne_environment_variables" {
   default = []
 }
 
+variable "OneOneOne_itk_ods_code_list" {
+  type        = string
+  description = "The list of ODS codes for the OneOneOne application."
+  default     = "EM396"
+}
+
+variable "pem111_itk_external_configuration_url" {
+  type        = string
+  description = "The external configuration URL for the app."
+  default     = ""
+}
+
+variable "pem111_ampq_queue_name" {
+  type        = string
+  description = "The name of the PEM111 queue."
+  default     = "pem111_queue"
+}
+
 variable "OneOneOne_log_level" {
   type = string
   description = "Level of logging for OneOneOne application"
@@ -173,3 +191,5 @@ variable "OneOneOne_use_nginx_proxy" {
   description = "Should an additional container with nginx reverse proxy be deployed"
   default = false
 }
+
+
