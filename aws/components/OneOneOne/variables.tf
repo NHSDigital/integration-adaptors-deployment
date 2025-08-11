@@ -114,32 +114,32 @@ variable "OneOneOne_environment_variables" {
 variable "OneOneOne_itk_ods_code_list" {
   type        = list(string)
   description = "The list of ODS codes for the OneOneOne application."
-  default     = [
-    "EM396",
-    "5L399",
-    "RSHSO14A",
-    "NVE06",
-    "FHR04RPX",
-    "E88122",
-    "E88122002",
-    "PS01RPX02"
-  ]
+  default     = []
 }
+
+#"EM396",
+#"5L399",
+#"RSHSO14A",
+#"NVE06",
+#"FHR04RPX",
+#"E88122",
+#"E88122002",
+#"PS01RPX02"
 
 variable "OneOneOne_itk_dos_ids_list" {
   type        = list(string)
   description = "The list of dos ids for the OneOneOne application."
-  default     = [
-    "26428",
-    "2000038407",
-    "136753",
-    "1340268940",
-    "2000072936",
-    "161145",
-    "159744",
-    "2000080724"
-  ]
+  default     = []
 }
+
+#"26428",
+#"2000038407",
+#"136753",
+#"1340268940",
+#"2000072936",
+#"161145",
+#"159744",
+#"2000080724"
 
 
 variable "pem111_itk_external_configuration_url" {
