@@ -145,7 +145,7 @@ variable "OneOneOne_itk_dos_ids_list" {
 variable "pem111_itk_external_configuration_url" {
   type        = string
   description = "The external configuration URL for the app."
-  default     = ""
+  default     = "TEST"
 }
 
 variable "pem111_ampq_queue_name" {
