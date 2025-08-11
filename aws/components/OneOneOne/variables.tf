@@ -111,6 +111,32 @@ variable "OneOneOne_environment_variables" {
   default = []
 }
 
+variable "OneOneOne_itk_ods_code_list" {
+  type        = string
+  description = "The list of ODS codes for the OneOneOne application."
+  default     = "EM396,5L399,RSHSO14A,NVE06,FHR04RPX,E88122,E88122002,PS01RPX02"
+}
+
+
+variable "OneOneOne_itk_dos_ids_list" {
+  type        = string
+  description = "The list of dos ids for the OneOneOne application."
+  default     = "26428,2000038407,136753,1340268940,2000072936,161145,159744,2000080724"
+}
+
+
+variable "pem111_itk_external_configuration_url" {
+  type        = string
+  description = "The external configuration URL for the app."
+  default     = ""
+}
+
+variable "pem111_ampq_queue_name" {
+  type        = string
+  description = "The name of the PEM111 queue."
+  default     = "pem111_queue"
+}
+
 variable "OneOneOne_log_level" {
   type = string
   description = "Level of logging for OneOneOne application"
@@ -173,3 +199,4 @@ variable "OneOneOne_use_nginx_proxy" {
   description = "Should an additional container with nginx reverse proxy be deployed"
   default = false
 }
+
