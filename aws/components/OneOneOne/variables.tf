@@ -108,13 +108,13 @@ variable "enable_dlt" {
 variable "OneOneOne_environment_variables" {
   type = list(object({name=string, value=string}))
   description = "List of objects for Environment variables"
-#  default = []
+  default = []
 }
 
 variable "OneOneOne_itk_ods_code_list" {
   type        = list(string)
   description = "The list of ODS codes for the OneOneOne application."
-#  default     = ["test"]
+  default     = ["test"]
 }
 
 #"EM396",
@@ -129,7 +129,7 @@ variable "OneOneOne_itk_ods_code_list" {
 variable "OneOneOne_itk_dos_ids_list" {
   type        = list(string)
   description = "The list of dos ids for the OneOneOne application."
-#  default     = ["test"]
+  default     = ["test"]
 }
 
 #"26428",
@@ -145,7 +145,7 @@ variable "OneOneOne_itk_dos_ids_list" {
 variable "pem111_itk_external_configuration_url" {
   type        = string
   description = "The external configuration URL for the app."
-#  default     = "TEST"
+  default     = "TEST"
 }
 
 variable "pem111_ampq_queue_name" {
