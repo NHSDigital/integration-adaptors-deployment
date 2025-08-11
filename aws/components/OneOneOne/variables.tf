@@ -114,7 +114,7 @@ variable "OneOneOne_environment_variables" {
 variable "OneOneOne_itk_ods_code_list" {
   type        = list(string)
   description = "The list of ODS codes for the OneOneOne application."
-  default     = []
+  default     = ["test"]
 }
 
 #"EM396",
@@ -129,7 +129,7 @@ variable "OneOneOne_itk_ods_code_list" {
 variable "OneOneOne_itk_dos_ids_list" {
   type        = list(string)
   description = "The list of dos ids for the OneOneOne application."
-  default     = []
+  default     = ["test"]
 }
 
 #"26428",
