@@ -1,6 +1,7 @@
 resource "aws_docdb_cluster" "base_db_cluster" {
   cluster_identifier = "${replace(local.resource_prefix,"_","-")}-dbcluster"
   engine                          = "docdb"
+  engine_version                  = "4.2.0"
   master_username                 = var.docdb_master_user
   master_password                 = var.docdb_master_password
   backup_retention_period         = var.docdb_retention_period
