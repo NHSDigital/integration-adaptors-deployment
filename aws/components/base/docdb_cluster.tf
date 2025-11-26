@@ -29,7 +29,7 @@ resource "aws_docdb_cluster" "base_db_cluster_ver_5_0" {
   storage_encrypted               = var.docdb_storage_encrypted
   kms_key_id                      = var.docdb_kms_key_id
 
-  snapshot_identifier         = "arn:aws:rds:region:acct:cluster-snapshot:nia-ptl-base-dbcluster-snapshot-25112025"
+  snapshot_identifier         = "arn:aws:rds:eu-west-2:067756640211:cluster-snapshot:nia-ptl-base-dbcluster-snapshot-25112025"
 
   tags = merge(local.default_tags,{
     Name = "${local.resource_prefix}-dbcluster-ver-5-0"
