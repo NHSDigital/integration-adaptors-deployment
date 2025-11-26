@@ -10,3 +10,16 @@ resource "aws_docdb_cluster_instance" "base_db_instance" {
     Name = "${local.resource_prefix}-dbinstance-${count.index}"
   })
 }
+
+resource "aws_docdb_cluster_instance" "base_db_instance_ver_5_0" {
+  count              = var.docdb_instance_count
+  identifier         = "${replace(local.resource_prefix,"_","-")}-dbinstance-ver-5-0-${count.index}"
+  cluster_identifier = aws_docdb_cluster.base_db_cluster_ver_5_0.id
+  instance_class     = var.docdb_instance_class
+  apply_immediately  = true
+  availability_zone  = local.availability_zones[ count.index ]
+
+  tags = merge(local.default_tags,{
+    Name = "${local.resource_prefix}-dbinstance-ver-5-0-${count.index}"
+  })
+}
