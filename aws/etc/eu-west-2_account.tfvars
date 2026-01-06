@@ -95,6 +95,30 @@ ecr_repositories = [
     prefix_to_keep  = "main",
     number_to_keep  = 10
   },
+  {
+    number = 13,
+    name = "mhs/inbound",
+    scan = false,
+    expire_PR_after = 10,
+    prefix_to_keep  = "main",
+    number_to_keep  = 10
+  },
+  {
+    number = 14,
+    name = "mhs/outbound",
+    scan = false,
+    expire_PR_after = 10,
+    prefix_to_keep  = "main",
+    number_to_keep  = 10
+  },
+  {
+    number = 15,
+    name = "mhs/route",
+    scan = false,
+    expire_PR_after = 10,
+    prefix_to_keep  = "main",
+    number_to_keep  = 10
+  },
   # {
   #   number = 7,
   #   name = "nhais",
