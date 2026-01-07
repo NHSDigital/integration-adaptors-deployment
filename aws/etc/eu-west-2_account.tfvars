@@ -119,6 +119,46 @@ ecr_repositories = [
     prefix_to_keep  = "main",
     number_to_keep  = 10
   },
+  {
+    number = 16,
+    name = "fake-spine",
+    scan = false,
+    expire_PR_after = 10,
+    prefix_to_keep  = "main",
+    number_to_keep  = 10
+  },
+  {
+    number = 17,
+    name = "gp2gp-gpc-api-mock",
+    scan = false,
+    expire_PR_after = 10,
+    prefix_to_keep  = "main",
+    number_to_keep  = 10
+  },
+  {
+    number = 18,
+    name = "gp2gp-gpcc-mock",
+    scan = false,
+    expire_PR_after = 10,
+    prefix_to_keep  = "main",
+    number_to_keep  = 10
+  },
+  {
+    number = 19,
+    name = "gp2gp-sds-api-mock",
+    scan = false,
+    expire_PR_after = 10,
+    prefix_to_keep  = "main",
+    number_to_keep  = 10
+  },
+  {
+    number = 20,
+    name = "nhais",
+    scan = false,
+    expire_PR_after = 10,
+    prefix_to_keep  = "main",
+    number_to_keep  = 10
+  },
   # {
   #   number = 7,
   #   name = "nhais",

@@ -10,26 +10,3 @@ resource "aws_ecr_repository" "ecr_repository" {
     Name = "${local.resource_prefix}-${var.ecr_repositories[count.index].name}_ecr"
   })
 }
-
-resource "aws_ecr_lifecycle_policy" "cleanup_old_images" {
-  repository = aws_ecr_repository.ecr_repository.name
-
-  policy = jsonencode({
-    rules = [
-      {
-        rulePriority = 1
-        description  = "Expire images older than 10 days"
-        selection = {
-          tagStatus   = "any"
-          countType   = "sinceImagePushed"
-          countUnit   = "days"
-          countNumber = 10
-        }
-        action = {
-          type = "expire"
-        }
-      }
-    ]
-  })
-
-}
