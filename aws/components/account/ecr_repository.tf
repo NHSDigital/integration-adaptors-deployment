@@ -18,12 +18,12 @@ resource "aws_ecr_lifecycle_policy" "cleanup_old_images" {
     rules = [
       {
         rulePriority = 1
-        description  = "Expire images older than 14 days"
+        description  = "Expire images older than 10 days"
         selection = {
           tagStatus   = "any"
           countType   = "sinceImagePushed"
           countUnit   = "days"
-          countNumber = 14
+          countNumber = 10
         }
         action = {
           type = "expire"
