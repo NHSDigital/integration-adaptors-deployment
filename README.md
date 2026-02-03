@@ -15,7 +15,7 @@ This repository contains the deployment terraform files for both AWS and Azure, 
 
 ## Deploying Components
 
-Components Can be deployed using the GitHub action: [Manual Terraform Job](https://github.com/MartinWheelerMT/test-workflow-dispatch/actions/workflows/terraform-dispatch.yml)
+Components Can be deployed using the GitHub action: [Manual Terraform Job](https://github.com/NHSDigital/integration-adaptors-deployment/actions/workflows/terraform-dispatch.yml)
 
 Clicking `Run Workflow` will provide a number of configurable parameters to use for the deployment.
 These will be detailed below:
