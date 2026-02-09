@@ -1,6 +1,6 @@
 resource "aws_db_parameter_group" "postgres_base_parameter" {
   name   = "${replace(local.resource_prefix,"_","-")}-postgres-parameters"
-  family = "postgres13"
+  family = "postgres16"
 
   /*parameter {
     name  = "ssl_min_protocol_version"
