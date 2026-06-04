@@ -35,6 +35,7 @@ get_latest_tag() {
     local region="$2"
     local branch_prefix="$3"
 
+    echo "RepoName: $repository_name, Region: $region, Prefix: $branch_prefix" >&2
     aws ecr describe-images \
         --repository-name "$repository_name" \
         --region "$region" \
