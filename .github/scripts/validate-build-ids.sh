@@ -35,12 +35,11 @@ get_latest_tag() {
     local region="$2"
     local branch_prefix="$3"
 
-    echo "RepoName: $repository_name, Region: $region, Prefix: $branch_prefix" >&2
     aws ecr describe-images \
         --repository-name "$repository_name" \
         --region "$region" \
-        --query "sort_by(imageDetails[?starts_with(imageTags[0], \`$branch_prefix\`)], &imagePushedAt)[-1].imageTags[0]" \
-        --output text | awk '{print $1}'
+        --query "sort_by(imageDetails[?imageTags], &imagePushedAt)[*].imageTags[*] | [] | [?starts_with(@, \`$branch_prefix\`)] | [-1]" \
+        --output text
 }
 
 fetch_latest_build_id() {
