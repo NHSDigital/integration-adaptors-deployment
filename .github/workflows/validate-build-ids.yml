@@ -36,12 +36,12 @@ jobs:
         uses: actions/checkout@v4.1.7
 
       - name: Set empty validated_build_ids for 'account' component
-        if: ${{ inputs.component == 'account' }}
+        if: ${{ inputs.component == 'account' || inputs.component == 'base' }}
         id: set-empty-for-account
         run: echo "validated_build_ids={}" >> $GITHUB_OUTPUT
 
       - name: Retrieve and Validate component build ids
-        if: ${{ inputs.component != 'account' }}
+        if: ${{ inputs.component != 'account' && inputs.component != 'base'}}
         id: validate
         shell: bash
         run: |
